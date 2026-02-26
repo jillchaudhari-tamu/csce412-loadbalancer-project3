@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Config.h"
+#include "RequestFactory.h"
 
 int main() {
     Config cfg;
@@ -10,11 +11,8 @@ int main() {
     std::cout << "Enter number of clock cycles to run: ";
     std::cin >> cfg.totalCycles;
 
-    // Basic sanity (don’t let it crash later)
     if (cfg.numServers < 1) cfg.numServers = 1;
     if (cfg.totalCycles < 1) cfg.totalCycles = 1;
-    if (cfg.taskTimeMin < 1) cfg.taskTimeMin = 1;
-    if (cfg.taskTimeMax < cfg.taskTimeMin) cfg.taskTimeMax = cfg.taskTimeMin;
 
     int initialQueueSize = cfg.numServers * cfg.initialQueueMultiplier;
 
@@ -29,6 +27,17 @@ int main() {
     std::cout << "Scale cooldown (n): " << cfg.scaleCooldownN << " cycles\n";
     std::cout << "New request probability/cycle: " << cfg.newRequestProb << "\n";
     std::cout << "===============================\n\n";
+
+    // --- Request generation test ---
+    RequestFactory factory(cfg);
+    std::cout << "Sample generated requests:\n";
+    for (int i = 0; i < 5; i++) {
+        auto r = factory.makeRequest();
+        std::cout << "  [" << i << "] "
+                  << r.ip_in << " -> " << r.ip_out
+                  << " | time=" << r.time_required
+                  << " | type=" << r.job_type << "\n";
+    }
 
     return 0;
 }
