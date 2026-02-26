@@ -1,11 +1,13 @@
 #pragma once
 #include <queue>
 #include <vector>
+#include <string>
+
 #include "Config.h"
 #include "Request.h"
 #include "RequestFactory.h"
 #include "WebServer.h"
-#include <string>
+#include "Logger.h"
 
 /**
  * @class LoadBalancer
@@ -54,4 +56,6 @@ private:
     void removeServerIfPossible();
 
     bool isBlockedIP(const std::string& ip) const;
+
+    Logger* logger_ = nullptr;
 };
