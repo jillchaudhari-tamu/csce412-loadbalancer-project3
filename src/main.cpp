@@ -1,6 +1,34 @@
 #include <iostream>
+#include "Config.h"
 
 int main() {
-    std::cout << "Load Balancer Project 3: build check successful.\n";
+    Config cfg;
+
+    std::cout << "Enter number of initial servers: ";
+    std::cin >> cfg.numServers;
+
+    std::cout << "Enter number of clock cycles to run: ";
+    std::cin >> cfg.totalCycles;
+
+    // Basic sanity (don’t let it crash later)
+    if (cfg.numServers < 1) cfg.numServers = 1;
+    if (cfg.totalCycles < 1) cfg.totalCycles = 1;
+    if (cfg.taskTimeMin < 1) cfg.taskTimeMin = 1;
+    if (cfg.taskTimeMax < cfg.taskTimeMin) cfg.taskTimeMax = cfg.taskTimeMin;
+
+    int initialQueueSize = cfg.numServers * cfg.initialQueueMultiplier;
+
+    std::cout << "\n=== Simulation Configuration ===\n";
+    std::cout << "Servers: " << cfg.numServers << "\n";
+    std::cout << "Total cycles: " << cfg.totalCycles << "\n";
+    std::cout << "Initial queue size: " << initialQueueSize << " (servers * "
+              << cfg.initialQueueMultiplier << ")\n";
+    std::cout << "Task time range: [" << cfg.taskTimeMin << ", " << cfg.taskTimeMax << "]\n";
+    std::cout << "Queue thresholds: " << (cfg.minQueuePerServer * cfg.numServers)
+              << " to " << (cfg.maxQueuePerServer * cfg.numServers) << "\n";
+    std::cout << "Scale cooldown (n): " << cfg.scaleCooldownN << " cycles\n";
+    std::cout << "New request probability/cycle: " << cfg.newRequestProb << "\n";
+    std::cout << "===============================\n\n";
+
     return 0;
 }
