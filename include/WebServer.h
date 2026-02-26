@@ -3,25 +3,27 @@
 #include "Request.h"
 
 /**
- * @brief Simulates a web server that processes one request at a time.
+ * @class WebServer
+ * @brief Processes at most one Request at a time.
  */
 class WebServer {
 public:
     explicit WebServer(int id);
 
-    // Assign a request if the server is idle. Returns true if accepted.
-    bool assign(const Request& r);
+    /**
+     * @brief Assign a request to this server (server must be idle).
+     */
+    void assign(const Request& r);
 
-    // Process one clock cycle (decrement remaining time if busy).
+    /**
+     * @brief Process one clock cycle.
+     */
     void tick();
 
-    // Status helpers
-    bool isBusy() const;
-    int id() const;
-
-    // For logging/debug
-    int remainingTime() const;
-    std::optional<Request> currentRequest() const;
+    /**
+     * @brief True if the server is not currently processing a request.
+     */
+    bool isIdle() const;
 
 private:
     int id_;

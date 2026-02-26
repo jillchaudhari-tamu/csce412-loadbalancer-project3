@@ -6,7 +6,7 @@ CXXFLAGS = -Wall -Werror -std=c++17 -Iinclude
 TARGET = loadbalancer
 
 # Object files
-OBJ = src/main.o src/LoadBalancer.o src/WebServer.o
+OBJ = src/main.o src/LoadBalancer.o src/WebServer.o src/Simulation.o
 
 # Default target
 all: $(TARGET)
@@ -26,6 +26,10 @@ src/LoadBalancer.o: src/LoadBalancer.cpp
 # Compile WebServer
 src/WebServer.o: src/WebServer.cpp
 	$(CXX) $(CXXFLAGS) -c src/WebServer.cpp -o src/WebServer.o
+
+# Compile Simulation
+src/Simulation.o: src/Simulation.cpp
+	$(CXX) $(CXXFLAGS) -c src/Simulation.cpp -o src/Simulation.o
 
 # Clean
 clean:
