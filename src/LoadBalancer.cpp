@@ -1,5 +1,6 @@
 #include "LoadBalancer.h"
 #include <iostream>
+#include <random>
 
 LoadBalancer::LoadBalancer(const Config& cfg)
     : cfg_(cfg), factory_(cfg_) {
@@ -44,6 +45,7 @@ void LoadBalancer::run() {
     std::cout << "Servers: " << servers_.size() << "\n";
 
     for (int cycle = 0; cycle < cfg_.totalCycles; cycle++) {
+        maybeAddRandomRequest();
         assignToIdleServers();
         tickServers();
 
@@ -56,7 +58,19 @@ void LoadBalancer::run() {
 
     std::cout << "Ending queue size: " << q_.size() << "\n";
     std::cout << "=== LoadBalancer run end ===\n\n";
+    std::cout << "Random requests generated: " << generated_ << "\n";
 }
 
 int LoadBalancer::queueSize() const { return (int)q_.size(); }
 int LoadBalancer::activeServerCount() const { return (int)servers_.size(); }
+
+void LoadBalancer::maybeAddRandomRequest() {
+    // Add a new request with probability cfg_.newRequestProb each cycle.
+    static std::mt19937 rng(std::random_device{}());
+    std::bernoulli_distribution coin(cfg_.newRequestProb);
+
+    if (coin(rng)) {
+        q_.push(factory_.makeRequest());
+        generated_++;
+    }
+}

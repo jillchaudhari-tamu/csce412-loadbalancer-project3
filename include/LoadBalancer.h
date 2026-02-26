@@ -19,6 +19,7 @@ public:
     // For testing/summary
     int queueSize() const;
     int activeServerCount() const;
+    long long generated_ = 0;
 
 private:
     Config cfg_;
@@ -32,4 +33,5 @@ private:
     void fillInitialQueue();
     void assignToIdleServers();
     void tickServers();
+    void maybeAddRandomRequest();
 };
