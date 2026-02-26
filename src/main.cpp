@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Config.h"
 #include "RequestFactory.h"
+#include "WebServer.h"
 
 int main() {
     Config cfg;
@@ -28,16 +29,26 @@ int main() {
     std::cout << "New request probability/cycle: " << cfg.newRequestProb << "\n";
     std::cout << "===============================\n\n";
 
-    // --- Request generation test ---
+    // --- Request + WebServer tick test ---
     RequestFactory factory(cfg);
-    std::cout << "Sample generated requests:\n";
-    for (int i = 0; i < 5; i++) {
-        auto r = factory.makeRequest();
-        std::cout << "  [" << i << "] "
-                  << r.ip_in << " -> " << r.ip_out
-                  << " | time=" << r.time_required
-                  << " | type=" << r.job_type << "\n";
-    }
 
-    return 0;
+    std::cout << "\n--- WebServer tick test ---\n";
+
+    WebServer s0(0);
+    Request r = factory.makeRequest();
+
+    std::cout << "Assigning request to server 0: time="
+            << r.time_required
+            << " type=" << r.job_type << "\n";
+
+    s0.assign(r);
+
+    for (int t = 0; t < 5; t++) {
+        std::cout << "Cycle " << t
+                << " | busy=" << (s0.isBusy() ? "yes" : "no")
+                << " | remaining=" << s0.remainingTime()
+                << "\n";
+        s0.tick();
+    }
 }
+    
