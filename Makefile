@@ -1,0 +1,32 @@
+# Compiler
+CXX = g++
+CXXFLAGS = -Wall -Werror -std=c++17 -Iinclude
+
+# Executable name
+TARGET = loadbalancer
+
+# Object files
+OBJ = src/main.o src/LoadBalancer.o src/WebServer.o
+
+# Default target
+all: $(TARGET)
+
+# Link step
+$(TARGET): $(OBJ)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ)
+
+# Compile main
+src/main.o: src/main.cpp
+	$(CXX) $(CXXFLAGS) -c src/main.cpp -o src/main.o
+
+# Compile LoadBalancer
+src/LoadBalancer.o: src/LoadBalancer.cpp
+	$(CXX) $(CXXFLAGS) -c src/LoadBalancer.cpp -o src/LoadBalancer.o
+
+# Compile WebServer
+src/WebServer.o: src/WebServer.cpp
+	$(CXX) $(CXXFLAGS) -c src/WebServer.cpp -o src/WebServer.o
+
+# Clean
+clean:
+	rm -f $(TARGET) src/*.o
