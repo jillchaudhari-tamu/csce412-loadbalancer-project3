@@ -1,7 +1,10 @@
 #include <iostream>
+#include <algorithm>
 #include "Config.h"
 #include "Simulation.h"
 #include "ConfigLoader.h"
+#include "LoadBalancer.h"
+#include "Switch.h"
 
 int main() {
     Config cfg;
@@ -30,8 +33,45 @@ int main() {
     std::cout << "New request probability/cycle: " << cfg.newRequestProb << "\n";
     std::cout << "===============================\n\n";
 
-    Simulation sim(cfg);
-    sim.runSimulation();
+    int mode;
+    std::cout << "Mode (1 = single LB, 2 = switch bonus): ";
+    std::cin >> mode;
 
-    return 0;
+    if (mode == 1) {
+        // ===== Single Load Balancer Mode =====
+        Simulation sim(cfg);
+        sim.runSimulation();
+    }
+    else {
+        // ===== Switch Bonus Mode =====
+
+        Config streamCfg = cfg;
+        Config procCfg   = cfg;
+
+        int streamServers = std::max(1, cfg.numServers / 2);
+        int procServers   = std::max(1, cfg.numServers - streamServers);
+
+        streamCfg.numServers = streamServers;
+        procCfg.numServers   = procServers;
+
+        LoadBalancer streamLB(streamCfg, "STREAM", "logs/stream_lb.txt",
+                            false, false);
+
+        LoadBalancer procLB(procCfg, "PROC", "logs/proc_lb.txt",
+                            false, false);
+
+        Switch sw(cfg, streamLB, procLB);
+
+        RequestFactory rf(cfg);
+
+        for (int i = 0; i < cfg.numServers * cfg.initialQueueMultiplier; i++) {
+            sw.route(rf.makeRequest());
+        }
+
+        for (int t = 0; t < cfg.totalCycles; t++) {
+            sw.step();
+        }
+
+        sw.summary();
+    }
 }

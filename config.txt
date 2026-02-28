@@ -12,3 +12,5 @@ blockedChancePercent=10
 
 logVerboseDrops=1
 logCheckpointInterval=1000
+
+useColor=1

@@ -15,7 +15,11 @@
  */
 class LoadBalancer {
 public:
-    explicit LoadBalancer(const Config& cfg);
+    LoadBalancer(const Config& cfg,
+                 std::string name,
+                 std::string logFile,
+                 bool fillInitialQueue = true,
+                 bool internalArrivals = true);
 
     // --- UML methods ---
     void addRequest(const Request& r);
@@ -23,6 +27,13 @@ public:
     void scaleServers();
     void generateSummary();
 
+    // tiny getters for Switch summary 
+    const std::string& name() const { return name_; }
+    int queueSize() const { return (int)q_.size(); }
+    int serverCount() const { return (int)servers_.size(); }
+    long long processed() const { return processed_; }
+    long long dropped() const { return dropped_; }
+    long long generatedRandom() const { return generatedRandom_; }
 private:
     // config + randomness
     Config cfg_;
@@ -46,6 +57,9 @@ private:
     long long serversRemoved_ = 0;
     int peakQueue_ = 0;
     int peakServers_ = 0;
+
+    std::string name_;
+    bool internalArrivals_ = true;
 
     // internal helpers (private)
     void initServers();
