@@ -11,10 +11,14 @@ struct Config {
     int minQueuePerServer = 50;       // lower threshold
     int maxQueuePerServer = 80;       // upper threshold
 
-    int scaleCooldownN = 50;          // "wait n clock cycles" (you can tune later)
+    int scaleCooldownN = 50;          // "wait n clock cycles"
 
-    int taskTimeMin = 10;             // range for task times (must be logged later)
+    int taskTimeMin = 10;             // range for task times 
     int taskTimeMax = 100;
 
-    double newRequestProb = 0.30;     // chance each cycle to generate a new request (tune later)
+    double newRequestProb = 0.30;     // chance each cycle to generate a new request
+
+    int blockedChancePercent = 10;          // chance to block a request when queue is full
+    int logVerboseDrops = 1;             // 0 = no logging, 1 = log blocked requests, 2 = log all drops (blocked + scaled down)
+    int logCheckpointInterval = 1000;          // log status every N cycles
 };

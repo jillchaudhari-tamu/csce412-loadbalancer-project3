@@ -1,9 +1,11 @@
 #include <iostream>
 #include "Config.h"
 #include "Simulation.h"
+#include "ConfigLoader.h"
 
 int main() {
     Config cfg;
+    ConfigLoader::loadFromFile("config.txt", cfg);
 
     std::cout << "Enter number of initial servers: ";
     std::cin >> cfg.numServers;

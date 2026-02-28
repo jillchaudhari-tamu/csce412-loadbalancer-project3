@@ -25,7 +25,7 @@ public:
         r.ip_in = randomIP();
 
         // 10% chance to force a blocked IP (192.168.x.x)
-        if (blockChanceDist_(rng_) <= 10) {
+        if (blockChanceDist_(rng_) <= cfg_.blockedChancePercent) {
             r.ip_in = "192.168." +
                       std::to_string(octetDist_(rng_)) + "." +
                       std::to_string(octetDist_(rng_));
