@@ -1,0 +1,30 @@
+=== Load Balancer Log Start ===
+Starting queue size: 1000
+Task time range: [10, 100]
+Initial servers: 10
+Queue thresholds: 500 to 800
+Scale cooldown (n): 50
+New request probability/cycle: 0.300000
+[Scale Up] time=1 queue=990 servers=11
+[Scale Up] time=52 queue=995 servers=12
+[Scale Up] time=103 queue=995 servers=13
+[Scale Up] time=1565 queue=1041 servers=14
+[Dropped] time=1643 total_dropped=50
+[Dropped] time=3036 total_dropped=100
+[Dropped] time=4389 total_dropped=150
+[Scale Up] time=5065 queue=1121 servers=15
+[Dropped] time=5699 total_dropped=200
+[Dropped] time=7567 total_dropped=250
+[Dropped] time=9188 total_dropped=300
+=== Summary ===
+Starting queue size: 1000
+Ending queue size: 1111
+Task time range: [10, 100]
+Random requests generated: 3009
+Processed requests: 2556
+Dropped (firewall) requests: 327
+Servers added: 5
+Servers removed: 0
+Peak servers: 15
+Peak queue size: 1146
+=== Load Balancer Log End ===

@@ -1,0 +1,16 @@
+# Load Balancer Config (key=value)
+
+taskTimeMin=10
+taskTimeMax=100
+
+minQueuePerServer=50
+maxQueuePerServer=80
+scaleCooldownN=50
+
+newRequestProb=0.3
+blockedChancePercent=10
+
+logVerboseDrops=1
+logCheckpointInterval=1000
+
+useColor=1

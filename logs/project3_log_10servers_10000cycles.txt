@@ -1,0 +1,45 @@
+=== Load Balancer Log Start (MAIN) ===
+Starting queue size: 1000
+Task time range: [10, 100]
+Initial servers: 10
+Queue thresholds: 500 to 800
+Scale cooldown (n): 50
+New request probability/cycle: 0.300000
+Blocked chance percent: 10
+Checkpoint interval: 1000
+[Scale Up][MAIN] time=1 queue=990 servers=11
+[Scale Up][MAIN] time=52 queue=997 servers=12
+[Scale Up][MAIN] time=103 queue=999 servers=13
+[Checkpoint][MAIN] time=1000 queue=1015 servers=13 busy=13 idle=0 processed=231 dropped=30 generated=289
+[Scale Up][MAIN] time=1519 queue=1041 servers=14
+[Dropped][MAIN] time=1780 total_dropped=50
+[Checkpoint][MAIN] time=2000 queue=1047 servers=14 busy=14 idle=0 processed=482 dropped=57 generated=600
+[Checkpoint][MAIN] time=3000 queue=1067 servers=14 busy=14 idle=0 processed=743 dropped=87 generated=911
+[Dropped][MAIN] time=3210 total_dropped=100
+[Checkpoint][MAIN] time=4000 queue=1092 servers=14 busy=14 idle=0 processed=1004 dropped=137 generated=1247
+[Dropped][MAIN] time=4371 total_dropped=150
+[Checkpoint][MAIN] time=5000 queue=1112 servers=14 busy=14 idle=0 processed=1252 dropped=171 generated=1549
+[Scale Up][MAIN] time=5042 queue=1121 servers=15
+[Dropped][MAIN] time=5873 total_dropped=200
+[Checkpoint][MAIN] time=6000 queue=1126 servers=15 busy=15 idle=0 processed=1514 dropped=202 generated=1857
+[Checkpoint][MAIN] time=7000 queue=1134 servers=15 busy=15 idle=0 processed=1779 dropped=236 generated=2164
+[Dropped][MAIN] time=7337 total_dropped=250
+[Checkpoint][MAIN] time=8000 queue=1126 servers=15 busy=14 idle=1 processed=2060 dropped=266 generated=2466
+[Checkpoint][MAIN] time=9000 queue=1096 servers=15 busy=15 idle=0 processed=2346 dropped=289 generated=2746
+[Dropped][MAIN] time=9466 total_dropped=300
+[Checkpoint][MAIN] time=10000 queue=1069 servers=15 busy=15 idle=0 processed=2624 dropped=314 generated=3022
+=== Summary (MAIN) ===
+Starting queue size: 1000
+Ending queue size: 1069
+Task time range: [10, 100]
+Random requests generated: 3022
+Processed requests: 2624
+Dropped (firewall) requests: 314
+Servers added: 5
+Servers removed: 0
+Peak servers: 15
+Peak queue size: 1140
+Final servers: 15
+Busy servers: 15
+Idle servers: 0
+=== Load Balancer Log End (MAIN) ===
