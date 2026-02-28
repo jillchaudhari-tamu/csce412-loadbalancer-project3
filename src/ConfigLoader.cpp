@@ -38,6 +38,7 @@ bool ConfigLoader::loadFromFile(const std::string& path, Config& cfg) {
             else if (key == "blockedChancePercent") cfg.blockedChancePercent = std::stoi(val);
             else if (key == "logVerboseDrops") cfg.logVerboseDrops = std::stoi(val);
             else if (key == "logCheckpointInterval") cfg.logCheckpointInterval = std::stoi(val);
+            else if (key == "useColor") cfg.useColor = std::stoi(val);
             // ignore unknown keys
         } catch (...) {
             // ignore bad values and keep defaults
@@ -61,6 +62,8 @@ bool ConfigLoader::loadFromFile(const std::string& path, Config& cfg) {
 
     if (cfg.logVerboseDrops != 0) cfg.logVerboseDrops = 1;
     if (cfg.logCheckpointInterval < 1) cfg.logCheckpointInterval = 1;
+
+    if (cfg.useColor != 0) cfg.useColor = 1;
 
     return true;
 }

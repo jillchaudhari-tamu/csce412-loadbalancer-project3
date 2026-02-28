@@ -21,4 +21,6 @@ struct Config {
     int blockedChancePercent = 10;          // chance to block a request when queue is full
     int logVerboseDrops = 1;             // 0 = no logging, 1 = log blocked requests, 2 = log all drops (blocked + scaled down)
     int logCheckpointInterval = 1000;          // log status every N cycles
+
+    int useColor = 1;
 };

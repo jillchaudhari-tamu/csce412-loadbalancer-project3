@@ -2,6 +2,7 @@
 #include <iostream>
 #include <random>
 #include <string>
+#include "ConsoleColor.h"
 
 // -------------------- constructor --------------------
 
@@ -93,6 +94,14 @@ void LoadBalancer::addServer() {
     servers_.emplace_back(newId);
     serversAdded_++;
 
+    std::cout << ConsoleColor::wrap(
+        cfg_.useColor,
+        ConsoleColor::GREEN,
+        "[Scale Up] time=" + std::to_string(currentTime_) +
+        " queue=" + std::to_string((int)q_.size()) +
+        " servers=" + std::to_string((int)servers_.size())
+    ) << "\n";
+
     if (logger_) {
         logger_->logLine("[Scale Up] time=" + std::to_string(currentTime_) +
                          " queue=" + std::to_string((int)q_.size()) +
@@ -109,6 +118,14 @@ void LoadBalancer::removeServerIfPossible() {
     servers_.pop_back();
     serversRemoved_++;
 
+    std::cout << ConsoleColor::wrap(
+        cfg_.useColor,
+        ConsoleColor::YELLOW,
+        "[Scale Down] time=" + std::to_string(currentTime_) +
+        " queue=" + std::to_string((int)q_.size()) +
+        " servers=" + std::to_string((int)servers_.size())
+    ) << "\n";
+
     if (logger_) {
         logger_->logLine("[Scale Down] time=" + std::to_string(currentTime_) +
                          " queue=" + std::to_string((int)q_.size()) +
@@ -121,6 +138,16 @@ void LoadBalancer::removeServerIfPossible() {
 void LoadBalancer::addRequest(const Request& r) {
     if (isBlockedIP(r.ip_in)) {
         dropped_++;
+
+        if (dropped_ % 50 == 0) {
+            std::cout << ConsoleColor::wrap(
+                cfg_.useColor,
+                ConsoleColor::RED,
+                "[Dropped] time=" + std::to_string(currentTime_) +
+                " total_dropped=" + std::to_string(dropped_)
+            ) << "\n";
+        }
+
         if (logger_ && (dropped_ % 50 == 0)) {
             logger_->logLine("[Dropped] time=" + std::to_string(currentTime_) +
                             " total_dropped=" + std::to_string(dropped_));
