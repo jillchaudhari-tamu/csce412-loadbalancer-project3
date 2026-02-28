@@ -4,7 +4,7 @@ WebServer::WebServer(int id)
     : id_(id), busy_(false), remaining_(0), current_(std::nullopt) {}
 
 void WebServer::assign(const Request& r) {
-    // UML: void return, assumes caller checks isIdle()
+    // void return, assumes caller checks isIdle()
     current_ = r;
     remaining_ = r.time_required;
     busy_ = true;
